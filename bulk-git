@@ -1,9 +1,10 @@
 #!/bin/bash
 dir="$(pwd)"
-find "$dir" -type d -name '.git' | while read g; do
+find "$dir" -type d -name '.git' | grep -v '/vendor/' | while read g; do
+    echo -e '\n\n\n'
     cd "$g/.."
     pwd
     git "$@"
     cd "$dir"
-    echo '------------------'
+    echo -e '\n\n\n\n------------------'
 done

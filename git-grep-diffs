@@ -1,0 +1,17 @@
+#!/bin/bash
+
+expression="$1"
+file="$2"
+
+git-list-commits "$file" | while read next; do
+    if [ -n "$c" ] && [ -n "$(git diff "$c~" "$c" -- "$file" 2>/dev/null | grep "${expression}")" ]; then
+        echo -n "${c} "
+        echo -n "$(git show -s --format=%ci "$c" 2>/dev/null | sed 's/ .*//') "
+        printf -v user %-30.30s "$(git show -s --format=%an "$c" 2>/dev/null)"
+        echo -n "$user"
+        echo -n "$(git show -s --format=%B "$c" 2>/dev/null | head -n 1)"
+        echo
+    fi
+
+    c=$next
+done
