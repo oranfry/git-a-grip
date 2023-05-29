@@ -1,0 +1,18 @@
+#!/bin/bash
+
+find . -type d -name '.git' | grep -v '/vendor/' | while read g; do
+    (
+        cd "$g/.."
+
+        if [ -n "$(git diff)" ]; then
+            if [ "$1" == '-v' ]; then
+                echo -e '\n\n\n'
+                pwd
+                git diff
+                echo -e '\n\n\n\n------------------'
+            else
+                pwd
+            fi
+        fi
+    )
+done
