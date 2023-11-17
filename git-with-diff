@@ -4,7 +4,7 @@ find . -type d -name '.git' | grep -v '/vendor/' | while read g; do
     (
         cd "$g/.."
 
-        if [ -n "$(git diff)" ]; then
+        if [ -n "$(git diff)" -o -n "$(git ls-files --others --exclude-standard)" ]; then
             if [ "$1" == '-v' ]; then
                 echo -e '\n\n\n'
                 pwd
